@@ -1,1 +1,4 @@
 ent/*
+primary*.txt
+.Vagrantfile.swp
+.vagrant/*
