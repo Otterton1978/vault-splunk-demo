@@ -25,7 +25,7 @@ chmod -R 0770 /etc/vault
 
 mkdir /var/{lib,log}/vault
 chown vault:vault /var/{lib,log}/vault
-chmod 0750 /var/{lib,log}/vault
+chmod 0777 /var/{lib,log}/vault
 
 echo "Creating Vault configuration ..."
 echo 'export VAULT_ADDR="http://localhost:8200"' | tee /etc/profile.d/vault.sh
@@ -42,16 +42,6 @@ ui = true
 storage "raft" {
   path    = "/etc/vault/raft/"
   node_id = "${RAFT_NODE}"
-
-  retry_join {
-    leader_api_addr = "http://${RAFT_NODE_1_IP}:8200"
-  }
-  retry_join {
-    leader_api_addr = "http://${RAFT_NODE_2_IP}:8200"
-  }
-  retry_join {
-    leader_api_addr = "http://${RAFT_NODE_3_IP}:8200"
-  }
 }
 
 listener "tcp" {
@@ -59,6 +49,14 @@ listener "tcp" {
   cluster_addr  = "${IP_ADDRESS}:8201"
   tls_disable   = "true"
 }
+
+cluster_name = "vtl"
+telemetry {
+  dogstatsd_addr = "localhost:8125"
+  enable_hostname_label = true
+  prometheus_retention_time = "0h"
+}
+
 EOF
 
 chown root:vault /etc/vault/vault.hcl

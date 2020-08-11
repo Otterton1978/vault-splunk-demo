@@ -1,4 +1,5 @@
 ent/*
 primary*.txt
+hec*.txt
 .Vagrantfile.swp
 .vagrant/*
