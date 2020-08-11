@@ -1,4 +1,5 @@
 ent/*
+!ent/.gitignore
 primary*.txt
 hec*.txt
 .Vagrantfile.swp
